@@ -1,13 +1,10 @@
-from fastapi import APIRouter,WebSocket,WebSocketDisconnect,Body,Depends
-from .database import *
-from .models import *
-from fastapi.encoders import jsonable_encoder
-import json
-
-
-
+from fastapi import APIRouter
+from .parse import get_current_price
+import asyncio
 
 router = APIRouter()
-@router.get("/test", response_description= "test router")
-async def test():
-   return 'hello world!'
+@router.get("/get_price{id}", response_description= "get price crypto by id")
+async def get_price(money_id:int):
+   res = await get_current_price(money_id)
+   return res
+

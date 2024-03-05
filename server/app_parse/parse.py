@@ -1,8 +1,8 @@
-import requests
+import aiohttp
 
-def get_money(money_id:int)->dict:
-    res = requests.get(f'https://api.coinlore.net/api/ticker/?id={money_id}')
-    return res.json()
+async def get_current_price(money_id:int)->dict:
+    async with aiohttp.ClientSession() as session:
+        async with session.get(f'https://api.coinlore.net/api/ticker/?id={money_id}') as response:
+            res = await response.json()
+            return res
 
-
-print(get_money(90))
